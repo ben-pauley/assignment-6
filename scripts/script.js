@@ -3,13 +3,15 @@ $(document).ready(function () {
   var lon = "";
   var lat = "";
   var apiKey = "39edc21fee70b725a0dbcb6dbed85366";
+  var city = "";
 
   loadStoredCities();
 
   $("#add-city").on("click", function (event) {
     event.preventDefault();
 
-    var city = $("#city-input").val().trim();
+    city = $("#city-input").val().trim();
+    localStorage.setItem("lastSearchedCity", JSON.stringify(city));
 
     cityArray.push(city);
     storeCityArray();
@@ -21,11 +23,14 @@ $(document).ready(function () {
   }
 
   function retrieveCityArray() {
-    var retrievedData = localStorage.getItem("cities");
-    if (retrievedData !== null) {
-      cityArray = JSON.parse(retrievedData);
+    var retrievedArray = localStorage.getItem("cities");
+    city = JSON.parse(localStorage.getItem("lastSearchedCity"));
+    if (retrievedArray !== null) {
+      cityArray = JSON.parse(retrievedArray);
 
       renderCityButtons();
+
+      getLonLat(city);
     }
   }
 
@@ -42,14 +47,19 @@ $(document).ready(function () {
       newButton.attr("city-name", cityArray[i]);
       newButton.text(cityArray[i]);
 
-      $("#city-buttons-div").append(newButton);
+      $("#city-buttons-div").prepend(newButton);
     }
   }
 
-  $(document).on("click", ".city-button", getLonLat);
+  $(document).on("click", ".city-button", getCityClicked);
+
+  function getCityClicked() {
+    city = $(this).attr("city-name");
+    localStorage.setItem("lastSearchedCity", JSON.stringify(city));
+    getLonLat();
+  }
 
   function getLonLat() {
-    var city = $(this).attr("city-name");
     var queryURL =
       "https://api.openweathermap.org/data/2.5/weather?q=" +
       city +
@@ -61,11 +71,11 @@ $(document).ready(function () {
     }).then(function (response) {
       lon = response.coord.lon;
       lat = response.coord.lat;
-      getWeatherInfo(city);
+      getWeatherInfo();
     });
   }
 
-  function getWeatherInfo(city) {
+  function getWeatherInfo() {
     var queryURL =
       "https://api.openweathermap.org/data/2.5/onecall?lat=" +
       lat +
@@ -77,12 +87,12 @@ $(document).ready(function () {
       url: queryURL,
       method: "GET",
     }).then(function (response) {
-      renderPage(response, city);
+      renderPage(response);
     });
   }
 
-  function renderPage(response, city) {
-    renderCurrentDayTitle(response, city);
+  function renderPage(response) {
+    renderCurrentDayTitle(response);
     renderCurrentDayBody(response);
     renderUVISpan(response);
     renderForecast(response);
@@ -117,7 +127,7 @@ $(document).ready(function () {
     return speedMPH;
   }
 
-  function renderCurrentDayTitle(response, city) {
+  function renderCurrentDayTitle(response) {
     var date = "(" + getDate(response.daily[0]) + ")";
     var weatherIconURL = getWeatherIcon(response);
 
