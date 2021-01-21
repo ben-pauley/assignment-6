@@ -1,0 +1,49 @@
+.navbar {
+  color: white;
+  text-align: center;
+  display: inline-block;
+  width: 100%;
+}
+
+.sidenav {
+  padding: 10px;
+}
+
+.btn-group-vertical {
+  width: 90%;
+}
+
+.btn-outline-secondary {
+  text-align: left;
+  padding: 15px;
+}
+
+.col-sm-8 {
+  margin-top: 10px;
+}
+
+.row {
+  margin: 5px;
+}
+
+.current-day {
+  margin-bottom: 25px;
+}
+
+.card-title {
+  margin-bottom: 25px;
+}
+
+#five-day-header {
+  margin-left: 5px;
+}
+
+.five-day {
+  padding-right: 0;
+  padding-left: 0;
+  margin-right: 1%;
+}
+
+.five-day-body {
+  padding: 10px;
+}
