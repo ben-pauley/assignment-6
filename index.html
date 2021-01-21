@@ -20,33 +20,23 @@
   </head>
   <body>
     <nav class="navbar navbar-dark bg-dark"><h1>Weather Dashboard</h1></nav>
-    <div class="container-fluid">
+    <main class="container-fluid">
       <div class="row content">
         <div class="col-sm-4 sidenav bg-light">
           <h4>Search for a city:</h4>
-          <div class="input-group">
-            <div class="form-outline">
-              <input type="search" id="form1" class="form-control" />
-            </div>
-            <submit type="button" class="btn btn-primary">
-              <i class="fas fa-search"></i>
-            </submit>
-          </div>
+          <form class="input-group">
+            <input type="text" id="city-input" />
+            <input id="add-city" type="submit" value="&#xf002" class="fa fa-input btn btn-primary"/>
+          </form>
+
           <br />
+
           <div
             class="btn-group-vertical"
             role="group"
             aria-label="Vertical button group"
+            id="city-buttons-div"
           >
-            <button type="button" class="btn btn-outline-secondary">
-              Birmingham
-            </button>
-            <button type="button" class="btn btn-outline-secondary">
-              Paris
-            </button>
-            <button type="button" class="btn btn-outline-secondary">
-              Berlin
-            </button>
           </div>
         </div>
 
@@ -109,6 +99,9 @@
           </div>
         </div>
       </div>
-    </div>
+    </main>
+
+    <script src="scripts/script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   </body>
 </html>

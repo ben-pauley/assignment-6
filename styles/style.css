@@ -9,6 +9,10 @@
   padding: 10px;
 }
 
+#city-input {
+  margin-right: 5px;
+}
+
 .btn-group-vertical {
   width: 90%;
 }
