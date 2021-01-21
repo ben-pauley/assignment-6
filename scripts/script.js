@@ -81,6 +81,7 @@ $(document).ready(function () {
 
       renderCurrentDayTitle(response, city);
       renderCurrentDayBody(response);
+      renderUVISpan(response);
     });
   }
 
@@ -129,11 +130,28 @@ $(document).ready(function () {
     var temp = getTempCelsius(response);
     var humidity = response.current.humidity;
     var windSpeed = getWindSpeedMPH(response);
-    var uvi = response.current.uvi;
 
     $("#current-temp").text("Temperature: " + temp + "°C");
     $("#current-humidity").text("Humidity: " + humidity + "%");
     $("#current-wind-speed").text("Wind Speed: " + windSpeed + " mph");
-    $("#current-uvi").text("UV Index: " + uvi);
+  }
+
+  function renderUVISpan(response) {
+    var uvi = response.current.uvi;
+    var uviSpan = $("<span></span>");
+    uviSpan.attr("id", "uviValue");
+    uviSpan.text(uvi);
+
+    if (uvi <= 2) {
+      uviSpan.css({ "background-color": "#5cb85c", "border-color": "#4cae4c" });
+    } else if (uvi > 2 && uvi <= 5) {
+      uviSpan.css({ "background-color": "#f0ad4e", "border-color": "#eea236" });
+    } else {
+      uviSpan.css({ "background-color": "#d9534f", "border-color": "#d43f3a" });
+    }
+
+    var uviElement = $("#current-uvi");
+    uviElement.text("UV Index: ");
+    uviElement.append(uviSpan);
   }
 });
