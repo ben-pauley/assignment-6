@@ -61,8 +61,79 @@ $(document).ready(function () {
     }).then(function (response) {
       lon = response.coord.lon;
       lat = response.coord.lat;
+      getWeatherInfo(city);
     });
   }
 
-  function displayWeatherInfo() {}
+  function getWeatherInfo(city) {
+    var queryURL =
+      "https://api.openweathermap.org/data/2.5/onecall?lat=" +
+      lat +
+      "&lon=" +
+      lon +
+      "&exclude={part}&appid=" +
+      apiKey;
+    $.ajax({
+      url: queryURL,
+      method: "GET",
+    }).then(function (response) {
+      console.log(response);
+
+      renderCurrentDayTitle(response, city);
+      renderCurrentDayBody(response);
+    });
+  }
+
+  function getDate(response) {
+    var unixTimestamp = response.dt;
+    var date = new Date(unixTimestamp * 1000);
+    var day = date.getDate();
+    var month = date.getMonth() + 1;
+    var year = date.getFullYear();
+    var ddmmyyyy = "(" + day + "/" + month + "/" + year + ")";
+    return ddmmyyyy;
+  }
+
+  function getWeatherIcon(response) {
+    var iconCode = response.current.weather[0].icon;
+    var iconURL = "http://openweathermap.org/img/w/" + iconCode + ".png";
+    return iconURL;
+  }
+
+  function getTempCelsius(response) {
+    var tempKelvin = response.current.temp;
+    var tempCelsius = Math.round((tempKelvin - 273.15) * 10) / 10;
+    return tempCelsius;
+  }
+
+  function getWindSpeedMPH(response) {
+    var speedMPerS = response.current.wind_speed;
+    var speedMPH = Math.round(speedMPerS * 2.237 * 10) / 10;
+    return speedMPH;
+  }
+
+  function renderCurrentDayTitle(response, city) {
+    var currentCity = city;
+    var currentDate = getDate(response.daily[0]);
+    var currentWeatherIconURL = getWeatherIcon(response);
+
+    var titleElement = $("#city-date-icon");
+    titleElement.text(currentCity + " " + currentDate + " ");
+
+    var iconElement = $("<img></img>");
+    iconElement.attr("src", currentWeatherIconURL);
+    titleElement.append(iconElement);
+  }
+
+  function renderCurrentDayBody(response) {
+    var temp = getTempCelsius(response);
+    var humidity = response.current.humidity;
+    var windSpeed = getWindSpeedMPH(response);
+    var uvi = response.current.uvi;
+
+    $("#current-temp").text("Temperature: " + temp + "°C");
+    $("#current-humidity").text("Humidity: " + humidity + "%");
+    $("#current-wind-speed").text("Wind Speed: " + windSpeed + " mph");
+    $("#current-uvi").text("UV Index: " + uvi);
+  }
 });
