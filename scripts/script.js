@@ -82,6 +82,9 @@ $(document).ready(function () {
       renderCurrentDayTitle(response, city);
       renderCurrentDayBody(response);
       renderUVISpan(response);
+
+      renderForecast(response);
+      $("#weather-info-body").css("display", "block");
     });
   }
 
@@ -91,7 +94,7 @@ $(document).ready(function () {
     var day = date.getDate();
     var month = date.getMonth() + 1;
     var year = date.getFullYear();
-    var ddmmyyyy = "(" + day + "/" + month + "/" + year + ")";
+    var ddmmyyyy = day + "/" + month + "/" + year;
     return ddmmyyyy;
   }
 
@@ -114,15 +117,14 @@ $(document).ready(function () {
   }
 
   function renderCurrentDayTitle(response, city) {
-    var currentCity = city;
-    var currentDate = getDate(response.daily[0]);
-    var currentWeatherIconURL = getWeatherIcon(response);
+    var date = "(" + getDate(response.daily[0]) + ")";
+    var weatherIconURL = getWeatherIcon(response);
 
     var titleElement = $("#city-date-icon");
-    titleElement.text(currentCity + " " + currentDate + " ");
+    titleElement.text(city + " " + date + " ");
 
     var iconElement = $("<img></img>");
-    iconElement.attr("src", currentWeatherIconURL);
+    iconElement.attr("src", weatherIconURL);
     titleElement.append(iconElement);
   }
 
@@ -153,5 +155,35 @@ $(document).ready(function () {
     var uviElement = $("#current-uvi");
     uviElement.text("UV Index: ");
     uviElement.append(uviSpan);
+  }
+
+  function renderForecast(response) {
+    for (var i = 1; i <= 5; i++) {
+      getForecastDate(response, i);
+      getForecastIcon(response, i);
+      getForecastData(response, i);
+    }
+  }
+
+  function getForecastDate(response, i) {
+    var date = getDate(response.daily[i]);
+    var id = "#forecast-date-" + i;
+    $(id).text(date);
+  }
+
+  function getForecastIcon(response, i) {
+    var icon = response.daily[i].weather[0].icon;
+    var iconURL = "http://openweathermap.org/img/w/" + icon + ".png";
+    var id = "#forecast-icon-" + i;
+    $(id).attr("src", iconURL);
+  }
+
+  function getForecastData(response, i) {
+    var temp = response.daily[i].temp.day - 273.15;
+    var humidity = response.daily[i].humidity;
+    tempID = "#forecast-temp-" + i;
+    humidityID = "#forecast-humidity-" + i;
+    $(tempID).text("Temp: " + temp + "°C");
+    $(humidityID).text("Humidity: " + humidity + "%");
   }
 });

@@ -22,8 +22,9 @@
   padding: 15px;
 }
 
-.col-sm-8 {
+#weather-info-body {
   margin-top: 10px;
+  display: none;
 }
 
 .row {
