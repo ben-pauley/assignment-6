@@ -77,15 +77,16 @@ $(document).ready(function () {
       url: queryURL,
       method: "GET",
     }).then(function (response) {
-      console.log(response);
-
-      renderCurrentDayTitle(response, city);
-      renderCurrentDayBody(response);
-      renderUVISpan(response);
-
-      renderForecast(response);
-      $("#weather-info-body").css("display", "block");
+      renderPage(response, city);
     });
+  }
+
+  function renderPage(response, city) {
+    renderCurrentDayTitle(response, city);
+    renderCurrentDayBody(response);
+    renderUVISpan(response);
+    renderForecast(response);
+    $("#weather-info-body").css("display", "block");
   }
 
   function getDate(response) {

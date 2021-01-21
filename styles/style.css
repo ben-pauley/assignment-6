@@ -1,5 +1,5 @@
 .navbar {
-  color: white;
+  color: #fff;
   text-align: center;
   display: inline-block;
   width: 100%;
@@ -60,6 +60,7 @@
   padding-right: 0;
   padding-left: 0;
   margin-right: 1%;
+  color: #fff;
 }
 
 .five-day-body {
