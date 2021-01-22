@@ -5,22 +5,24 @@ $(document).ready(function () {
   var apiKey = "39edc21fee70b725a0dbcb6dbed85366";
   var city = "";
 
-  loadStoredCities();
+  retrieveCityArray();
 
-  $(document).on("click", ".city-button", getCityClicked);
-
+  // When user searches for city
   $("#add-city").on("click", function (event) {
     event.preventDefault();
 
-    city = $("#city-input").val().trim();
-    localStorage.setItem("lastSearchedCity", JSON.stringify(city));
-
-    cityArray.push(city);
     storeCityArray();
     retrieveCityArray();
   });
 
+  // When user clicks city button
+  $(document).on("click", ".city-button", getCityClicked);
+
   function storeCityArray() {
+    city = $("#city-input").val().trim();
+    localStorage.setItem("lastSearchedCity", JSON.stringify(city));
+
+    cityArray.push(city);
     localStorage.setItem("cities", JSON.stringify(cityArray));
   }
 
@@ -33,10 +35,6 @@ $(document).ready(function () {
       renderCityButtons();
       getLonLat();
     }
-  }
-
-  function loadStoredCities() {
-    retrieveCityArray();
   }
 
   function renderCityButtons() {
