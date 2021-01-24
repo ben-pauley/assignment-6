@@ -2,6 +2,10 @@
   --white: #fff;
 }
 
+body {
+  font-size: 16px;
+}
+
 .navbar {
   color: var(--white);
   display: inline-block;
