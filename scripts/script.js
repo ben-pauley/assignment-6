@@ -16,7 +16,7 @@ $(document).ready(function () {
   });
 
   // When user clicks city button
-  $(".city-button").on("click", getCityClicked);
+  $(document).on("click", ".city-button", getCityClicked);
 
   function storeCityArray() {
     city = $("#city-input").val().trim();
@@ -69,11 +69,11 @@ $(document).ready(function () {
     }).then(function (response) {
       lon = response.coord.lon;
       lat = response.coord.lat;
-      getWeatherData();
+      getWeatherAPIInfo();
     });
   }
 
-  function getWeatherData() {
+  function getWeatherAPIInfo() {
     var queryURL =
       "https://api.openweathermap.org/data/2.5/onecall?lat=" +
       lat +
