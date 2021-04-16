@@ -6,7 +6,7 @@ In this GitHub repository, you will find my completed assignment for week 7 of t
 
 ## Installation
 
-Nothing is required to install my project, but the project is deployed live at this URL: https://ben-pauley.github.io/assignment-6/.
+Nothing is required to install my project, but the project is deployed live at this URL: https://ben-pauley.github.io/weather-dashboard/.
 
 ## Software Used
 
